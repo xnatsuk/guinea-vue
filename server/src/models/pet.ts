@@ -8,7 +8,7 @@ const petSchema = new mongoose.Schema({
     required: true,
   },
   birthday: {
-    type: String,
+    type: Date,
   },
   gender: {
     type: String,
@@ -20,7 +20,7 @@ const petSchema = new mongoose.Schema({
     type: String,
   },
   deathDate: {
-    type: String,
+    type: Date,
   },
   favoriteFood: {
     type: String,
