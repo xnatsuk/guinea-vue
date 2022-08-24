@@ -1,10 +1,10 @@
 import dotenv from 'dotenv'
 dotenv.config()
 export default {
-  DB: process.env.DB,
+  MONGO_URI: process.env.MONGO_URI,
   PORT: process.env.PORT,
-  DB_USER: process.env.DB_USER,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_NAME: process.env.DB_NAME,
+  MONGODB_HOST: process.env.MONGODB_HOST,
+  MONGODB_USER: process.env.MONGODB_USER,
+  MONGODB_PASSWORD: process.env.MONGODB_PASSWORD,
   allowedOrigins: ['http://localhost:5173', 'http://localhost:27017'],
 }

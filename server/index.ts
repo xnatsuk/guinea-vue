@@ -7,10 +7,10 @@ import schema from './src/graphql/schema/index'
 
 mongoose.Promise = global.Promise
 
-mongoose.connect(config.DB)
+mongoose.connect(config.MONGO_URI)
 
 mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database: ${config.DB}`)
+  throw new Error(`unable to connect to database: ${config.MONGO_URI}`)
 })
 
 async function startApolloServer() {
@@ -23,7 +23,7 @@ async function startApolloServer() {
 
   await new Promise<void>(resolve => httpServer.listen(process.env.PORT || config.PORT, resolve))
   console.log(`🚀  Server ready at ${config.PORT}`)
-  console.log(`🚀 Server ready at http://localhost:${config.PORT}${server.graphqlPath}`)
+  console.log(`🚀  Server ready at http://localhost:${config.PORT}${server.graphqlPath}`)
 }
 
 startApolloServer()
