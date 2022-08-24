@@ -1,0 +1,28 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    volumes:
+      - ./server:/server
+    environment:
+      MONGO_URI: 'mongodb://mongo:27017/test'
+      MONGODB_HOST: mongo:27017
+      MONGODB_USER: test
+      MONGODB_PASSWORD: test
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: 'mongo:latest'
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
