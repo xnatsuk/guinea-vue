@@ -11,8 +11,7 @@ const resolvers = {
 
     pet: async (parent: any, { id }: any) => {
       try {
-        const pet = await Pet.findById(id)
-        return { pet }
+        return await Pet.findById(id)
       }
       catch (error) {
         throw new Error('Pet not found')
@@ -33,8 +32,7 @@ const resolvers = {
             name: petInput.name,
             birthday: petInput.birthday,
           })
-          await newPet.save()
-          return { newPet }
+          return await newPet.save()
         }
       }
       catch (error) {
@@ -47,8 +45,7 @@ const resolvers = {
         throw new Error('Invalid input')
 
       try {
-        const pet = await Pet.findByIdAndUpdate(id, updatePet, { new: true })
-        return { pet }
+        return await Pet.findByIdAndUpdate(id, updatePet, { new: true })
       }
       catch (error) {
         throw new Error('Couldn\'t update pet')
@@ -60,8 +57,7 @@ const resolvers = {
         throw new Error('Invalid input')
 
       try {
-        const pet = await Pet.findByIdAndDelete(id)
-        return { pet }
+        return await Pet.findByIdAndDelete(id)
       }
       catch (error) {
         throw new Error('Couldn\'t delete pet')
