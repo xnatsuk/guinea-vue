@@ -1,23 +1,28 @@
 import http from 'http'
-import mongoose from 'mongoose'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
+import mongoose from 'mongoose'
 import config from './config'
 import schema from './src/graphql/schema/index'
 
-mongoose.Promise = global.Promise
+const connectDb = async () => {
+  try {
+    await mongoose.connect(config.MONGO_URI)
+    console.log(`MongoDB Connected: ${mongoose.connection.host}`)
+  }
+  catch (error) {
+    console.log(error)
+  }
 
-mongoose.connect(config.MONGO_URI)
+  mongoose.set('debug', true)
+}
 
-mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database: ${config.MONGO_URI}`)
-})
-
-async function startApolloServer() {
+async function startServer() {
   const app = express()
   const httpServer = http.createServer(app)
   const server = new ApolloServer(schema)
 
+  await connectDb()
   await server.start()
   server.applyMiddleware({ app, path: '/graphql' })
 
@@ -26,4 +31,4 @@ async function startApolloServer() {
   console.log(`🚀  Server ready at http://localhost:${config.PORT}${server.graphqlPath}`)
 }
 
-startApolloServer()
+startServer()

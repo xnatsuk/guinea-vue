@@ -6,19 +6,8 @@ import resolvers from '../../graphql/resolvers'
 const typeDefs = gql`
   ${LocalDateTypeDefinition}
 
-  type Query {
-    pets: [Pet!]!
-    pet(id: ID!): Pet!
-  }
-
-  type Mutation {
-    createPet(petInput: PetInput): Pet
-    updatePet(updatePet: UpdatePet): Pet!
-    deletePet(id: ID!): Pet!
-  }
-
   type Pet {
-    id: ID
+    id: ID!
     name: String!
     birthday: LocalDate
     gender: String
@@ -29,11 +18,6 @@ const typeDefs = gql`
     favoriteActivity: String
     description: String
     photo: String
-  }
-
-  input PetInput {
-    name: String!
-    birthday: LocalDate
   }
 
   input UpdatePet {
@@ -47,6 +31,17 @@ const typeDefs = gql`
     favoriteActivity: String
     description: String
     photo: String
+  }
+
+  type Query {
+    getPets: [Pet!]!
+    findPet(name: String!): Pet
+  }
+
+  type Mutation {
+    createPet(name: String!): Pet
+    updatePet(updatePet: UpdatePet): Pet
+    deletePet(name: String!): Pet
   }
 `
 const schema: ApolloServerExpressConfig = {

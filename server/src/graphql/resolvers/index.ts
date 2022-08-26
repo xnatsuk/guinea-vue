@@ -1,67 +1,57 @@
-import mongoose from 'mongoose'
 import { LocalDateResolver } from 'graphql-scalars'
 import Pet from '../../models/pet'
 
 const resolvers = {
   LocalDate: LocalDateResolver,
+
   Query: {
-    pets: async () => {
-      return await Pet.find()
+    getPets: async () => {
+      return await Pet.find({})
     },
 
-    pet: async (parent: any, { id }: any) => {
-      try {
-        return await Pet.findById(id)
-      }
-      catch (error) {
-        throw new Error('Pet not found')
-      }
+    findPet: async (root: any, args: any) => {
+      return await Pet.findOne({ name: args.name })
     },
   },
 
   Mutation: {
-    createPet: async (parent: any, { petInput }: any) => {
+    createPet: async (root: any, args: any) => {
+      const pet = await Pet.findOne({ name: args.name })
+      const newPet = new Pet({ name: args.name })
+      if (pet)
+        throw new Error('Pet already exists')
+
       try {
-        const pet = await Pet.findOne({ name: petInput.name })
-        if (pet) {
-          throw new Error('Pet already exists')
-        }
-        else {
-          const newPet = new Pet({
-            id: new mongoose.Types.ObjectId(),
-            name: petInput.name,
-            birthday: petInput.birthday,
-          })
-          return await newPet.save()
-        }
+        await newPet.save()
       }
       catch (error) {
         throw new Error('Couldn\'t create pet')
       }
+
+      return newPet
     },
 
-    updatePet: async (parent: any, { id, updatePet }: any) => {
-      if (!id || !updatePet)
-        throw new Error('Invalid input')
+    updatePet: async (root: any, args: any) => {
+      const pet = await Pet.findOne({ name: args.name })
+      if (!pet)
+        throw new Error('Pet not found')
 
       try {
-        return await Pet.findByIdAndUpdate(id, updatePet, { new: true })
+        await Pet.findByIdAndUpdate({ id: pet.id }, { ...args }, { new: true })
       }
       catch (error) {
         throw new Error('Couldn\'t update pet')
       }
+
+      return pet
     },
 
-    deletePet: async (parent: any, { id }: any) => {
-      if (!id)
-        throw new Error('Invalid input')
+    deletePet: async (args: any) => {
+      const pet = await Pet.findOne({ name: args.name })
+      if (!pet)
+        throw new Error('Pet not found')
 
-      try {
-        return await Pet.findByIdAndDelete(id)
-      }
-      catch (error) {
-        throw new Error('Couldn\'t delete pet')
-      }
+      return await Pet.findByIdAndDelete({ id: pet.id })
     },
   },
 }
