@@ -36,19 +36,4 @@ const petSchema = new mongoose.Schema({
   },
 })
 
-petSchema.statics = {
-  get(id: string): mongoose.Document {
-    return this.findById(id)
-      .execAsync()
-      .then((pet: any) => {
-        if (pet)
-          return pet
-
-        const err = new Error('Pet not found')
-        throw err
-      },
-      )
-  },
-}
-
 export default mongoose.model('Pet', petSchema)
