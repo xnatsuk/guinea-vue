@@ -1,5 +1,4 @@
 import { gql } from 'graphql-tag'
-import { petFragment } from './fragments'
 
 export const CREATE_PET = gql`
   mutation CreatePet($name: String!) {
@@ -7,7 +6,6 @@ export const CREATE_PET = gql`
       name
     }
   }
-  ${petFragment}
 `
 
 export const UPDATE_PET = gql`
@@ -25,5 +23,4 @@ export const DELETE_PET = gql`
       name
     }
   }
-  ${petFragment}
 `

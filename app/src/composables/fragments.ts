@@ -1,7 +1,6 @@
 import { gql } from 'graphql-tag'
 
-export const petFragment = {
-  pet: gql`
+export const petFragment = gql`
   fragment PetFragment on Pet {
     name
     birthday
@@ -14,5 +13,4 @@ export const petFragment = {
     description
     photo
   }
-  `,
-}
+  `

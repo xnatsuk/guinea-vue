@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client/core'
-import { petFragment } from './fragments'
+import { gql } from 'graphql-tag'
+import { petFragment } from '../composables/fragments'
 
 export const GET_PETS = gql`
   query GetPets {
