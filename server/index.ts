@@ -6,8 +6,9 @@ import config from './config'
 import schema from './src/graphql/schema/index'
 
 const connectDb = async () => {
+  const db = `mongodb://${config.MONGODB_USER}:${config.MONGODB_PASSWORD}@${config.MONGODB_HOST}?authSource=admin`
   try {
-    await mongoose.connect(config.MONGO_URI)
+    await mongoose.connect(db)
     console.log(`MongoDB Connected: ${mongoose.connection.host}`)
   }
   catch (error) {
