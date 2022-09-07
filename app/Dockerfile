@@ -7,7 +7,6 @@ COPY ./app/pnpm-lock.yaml ./app/package.json ./
 RUN pnpm install
 
 COPY ./app ./
-RUN pnpm build
 
 CMD ["pnpm", "dev"]
 
