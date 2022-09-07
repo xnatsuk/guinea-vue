@@ -25,7 +25,7 @@ async function startServer() {
 
   await connectDb()
   await server.start()
-  server.applyMiddleware({ app, path: '/graphql' })
+  server.applyMiddleware({ app, cors: { origin: config.allowedOrigins }, path: '/graphql' })
 
   await new Promise<void>(resolve => httpServer.listen(process.env.PORT || config.PORT, resolve))
   console.log(`🚀  Server ready at ${config.PORT}`)
