@@ -48,6 +48,7 @@ const schema: ApolloServerExpressConfig = {
   typeDefs,
   resolvers,
   introspection: true,
+  csrfPrevention: true,
 }
 
 export default schema
