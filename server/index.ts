@@ -6,8 +6,9 @@ import config from './config'
 import schema from './src/graphql/schema/index'
 
 const connectDb = async () => {
+  const db = `mongodb://${config.MONGODB_USER}:${config.MONGODB_PASSWORD}@${config.MONGODB_HOST}?authSource=admin`
   try {
-    await mongoose.connect(config.MONGO_URI)
+    await mongoose.connect(db)
     console.log(`MongoDB Connected: ${mongoose.connection.host}`)
   }
   catch (error) {
@@ -24,7 +25,7 @@ async function startServer() {
 
   await connectDb()
   await server.start()
-  server.applyMiddleware({ app, path: '/graphql' })
+  server.applyMiddleware({ app, cors: { origin: config.allowedOrigins }, path: '/graphql' })
 
   await new Promise<void>(resolve => httpServer.listen(process.env.PORT || config.PORT, resolve))
   console.log(`🚀  Server ready at ${config.PORT}`)
