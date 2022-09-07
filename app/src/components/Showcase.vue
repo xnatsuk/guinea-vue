@@ -17,7 +17,7 @@ const breakpoints = {
   },
 }
 
-const pets = ref <Array<IPet>>([])
+const pets = ref <IPet[]>([])
 
 watch(query.get(), result =>
   pets.value = result?.getPets,
