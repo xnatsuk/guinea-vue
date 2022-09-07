@@ -8,6 +8,6 @@ RUN pnpm install
 
 COPY ./app ./
 
-CMD ["pnpm", "dev"]
+CMD ["pnpm", "dev", "--host"]
 
 EXPOSE 5173
