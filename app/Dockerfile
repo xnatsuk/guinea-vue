@@ -1,0 +1,14 @@
+FROM node:lts-alpine as build-stage
+
+RUN npm --global install pnpm
+WORKDIR /app
+
+COPY ./app/pnpm-lock.yaml ./app/package.json ./
+RUN pnpm install
+
+COPY ./app ./
+RUN pnpm build
+
+CMD ["pnpm", "dev"]
+
+EXPOSE 5173
