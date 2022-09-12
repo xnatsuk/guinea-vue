@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+const formKitTailwind = require('@formkit/themes/tailwindcss');
+
 module.exports = {
-  content: ['./src/**/*.{vue,js,ts}'],
+  content: ['./src/**/*.{vue,js,ts}', 'formkit.config.{js,ts}', 'theme.{js,ts}'],
   darkMode: 'class',
-  plugins: [require('daisyui')],
+  plugins: [require('daisyui'), require('@tailwindcss/forms'),formKitTailwind],
   daisyui: {
     darkTheme: 'dark',
     lightTheme: 'light',
@@ -17,7 +19,7 @@ module.exports = {
           'info': '#21BFC2',
           'success': '#27D796',
           'warning': '#FAB28E',
-          'error': '#DA103F',
+          'error': '#F43E5C',
         },
 
         light: {
