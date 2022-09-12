@@ -46,14 +46,13 @@ const emit = defineEmits(['submit'])
       type="text"
       label="Nickname"
       name="nickname"
-      validation="required|matches:/^@[a-zA-Z]+$/"
+      validation="matches:/^@[a-zA-Z]+$/"
     />
 
     <FormKit
       type="textarea"
       label="Description"
       name="description"
-      validation="matches:/^@[a-zA-Z]+$/"
     />
 
     <FormKit
@@ -100,7 +99,7 @@ const emit = defineEmits(['submit'])
       label="Photo"
       name="photo"
       validation="url"
-      help="Enter a URL to an image"
+      help="Enter an image URL"
     />
   </FormKit>
 </template>
