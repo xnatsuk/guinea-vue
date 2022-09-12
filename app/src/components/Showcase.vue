@@ -5,16 +5,27 @@ import 'vueperslides/dist/vueperslides.css'
 
 const breakpoints = {
   1024: {
-    slideRatio: 1,
-  },
-
-  740: {
     slideRatio: 1.3,
   },
-
-  580: {
+  880: {
+    slideRatio: 1.5,
+  },
+  740: {
+    slideRatio: 1.8,
+  },
+  620: {
     slideRatio: 2,
   },
+  560: {
+    slideRatio: 2.4,
+  },
+  460: {
+    slideRatio: 3,
+  },
+  380: {
+    slideRatio: 3.5,
+  },
+
 }
 
 const pets = ref <IPet[]>([])
@@ -27,11 +38,11 @@ watch(query.get(), result =>
 <template>
   <div class="flex justify-center">
     <VueperSlides
-      :dragging-distance="10"
-      :infinite="true"
-      :slide-ratio="1 / 2"
+    :dragging-distance="100"
+      :slide-ratio="0.6"
       :breakpoints="breakpoints"
-      bullets-outside
+      class="no-shadow"
+      arrows-outside
     >
       <VueperSlide
         v-for="(pet, i) in pets"
@@ -59,10 +70,13 @@ watch(query.get(), result =>
 
 <style scoped>
   .vueperslides {
-    width: 90%;
+  width: 100%;
+  max-width: 1024px;
+  margin: auto;
   }
 
   .vueperslide {
     margin-top: 10%;
+    max-height: 640px;
   }
 </style>
