@@ -1,19 +1,19 @@
-import { LocalDateTypeDefinition } from 'graphql-scalars'
+import { DateTypeDefinition } from 'graphql-scalars'
 import { gql } from 'apollo-server-express'
 import type { ApolloServerExpressConfig } from 'apollo-server-express'
 import resolvers from '../../graphql/resolvers'
 
 const typeDefs = gql`
-  ${LocalDateTypeDefinition}
+  ${DateTypeDefinition}
 
   type Pet {
     id: ID!
     name: String!
-    birthday: LocalDate
+    birthday: Date
     gender: String
     species: String
     nickname: String
-    deathDate: LocalDate
+    deathDate: Date
     favoriteFood: String
     favoriteActivity: String
     description: String
@@ -22,11 +22,11 @@ const typeDefs = gql`
 
   input UpdatePet {
     name: String!
-    birthday: LocalDate
+    birthday: Date
     gender: String
     species: String
     nickname: String
-    deathDate: LocalDate
+    deathDate: Date
     favoriteFood: String
     favoriteActivity: String
     description: String
