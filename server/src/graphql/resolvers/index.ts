@@ -1,8 +1,8 @@
-import { LocalDateResolver } from 'graphql-scalars'
+import { DateResolver } from 'graphql-scalars'
 import Pet from '../../models/pet'
 
 const resolvers = {
-  LocalDate: LocalDateResolver,
+  Date: DateResolver,
 
   Query: {
     getPets: async () => {

@@ -32,7 +32,7 @@ export const apolloProvider = createApolloProvider({
   defaultOptions: {
     $query: {
       loadingKey: 'loading',
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'cache-and-network',
     },
   },
 

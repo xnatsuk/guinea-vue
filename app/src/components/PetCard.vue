@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Url } from 'url'
 
 interface props {
   name: string
@@ -11,7 +10,7 @@ interface props {
   favoriteFood?: string
   favoriteActivity?: string
   description?: string
-  photo?: string | Url
+  photo?: string
 
 }
 const prop = defineProps<props>()
@@ -19,10 +18,10 @@ const prop = defineProps<props>()
 
 <template>
   <div>
-    <div class="card lg:card-side bg-base-300 shadow-xl ">
+    <div class="card lg:card-side bg-base-300 shadow-lg ">
       <figure>
         <div v-if="prop.photo">
-          <img src="{{prop.photo}}">
+          <img :src="prop.photo" class="max-w-4xl lg:max-w-lg">
         </div>
         <div v-else class="artboard artboard-horizontal phone-1" />
       </figure>

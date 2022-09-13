@@ -5,33 +5,49 @@ import 'vueperslides/dist/vueperslides.css'
 
 const breakpoints = {
   1024: {
-    slideRatio: 1,
-  },
-
-  740: {
     slideRatio: 1.3,
   },
-
-  580: {
+  880: {
+    slideRatio: 1.5,
+  },
+  740: {
+    slideRatio: 1.8,
+  },
+  620: {
     slideRatio: 2,
   },
+  560: {
+    slideRatio: 2.4,
+  },
+  460: {
+    slideRatio: 3,
+  },
+  380: {
+    slideRatio: 3.5,
+  },
+
 }
 
-const pets = ref <Array<IPet>>([])
+const { result, loading, error } = query.get()
 
-watch(query.get(), result =>
-  pets.value = result?.getPets,
-)
+const pets = computed(() => result.value?.getPets as IPet[] ?? [])
 </script>
 
 <template>
-  <div class="flex justify-center">
+  <div v-if="loading" class="flex justify-center">
+    Loading...
+  </div>
+
+  <div v-else-if="error" class="flex justify-center text-error">
+    {{ error.message }}
+  </div>
+
+  <div v-else-if="pets" class="flex justify-center">
     <VueperSlides
-      :dragging-distance="10"
-      :infinite="true"
-      :slide-ratio="1 / 2"
+      :dragging-distance="100"
+      :slide-ratio="0.6"
       :breakpoints="breakpoints"
-      bullets-outside
+      class="no-shadow"
     >
       <VueperSlide
         v-for="(pet, i) in pets"
@@ -59,10 +75,13 @@ watch(query.get(), result =>
 
 <style scoped>
   .vueperslides {
-    width: 90%;
+  width: 100%;
+  max-width: 1024px;
+  margin: auto;
   }
 
   .vueperslide {
     margin-top: 10%;
+    max-height: 640px;
   }
 </style>

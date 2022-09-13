@@ -1,8 +1,8 @@
 FROM node:lts-alpine as build-stage
 
+RUN npm --global install pnpm
 WORKDIR /server
 
-RUN apk add pnpm
 COPY ./server/pnpm-lock.yaml ./server/package.json ./
 RUN pnpm install
 

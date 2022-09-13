@@ -37,3 +37,9 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+  .swap input{
+    display: none;
+  }
+</style>
