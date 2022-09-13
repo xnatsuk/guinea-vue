@@ -44,6 +44,8 @@ const pets = computed(() => result.value?.getPets as IPet[] ?? [])
 
   <div v-else-if="pets" class="flex justify-center">
     <VueperSlides
+      :autoplay="true"
+      :infinite="true"
       :dragging-distance="100"
       :slide-ratio="0.6"
       :breakpoints="breakpoints"
