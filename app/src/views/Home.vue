@@ -1,4 +1,3 @@
 <template>
-  <Navigation />
   <Showcase />
 </template>
