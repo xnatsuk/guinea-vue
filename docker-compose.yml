@@ -10,7 +10,7 @@ services:
     environment:
       VITE_BASE_URL: http://localhost:5173
       VITE_API_URL: http://localhost:8080
-      APOLLO_KEY: 'service:guinea-api:HMqmUNCPot5s4j2XDFfD9g'
+    restart: always
     ports:
       - '5173:5173'
     depends_on:
@@ -28,6 +28,7 @@ services:
       MONGODB_HOST: mongo:27017
       MONGODB_USER: test
       MONGODB_PASSWORD: test
+    restart: always
     ports:
       - '8080:8080'
     depends_on:
