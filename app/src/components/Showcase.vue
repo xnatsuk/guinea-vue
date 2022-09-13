@@ -28,21 +28,26 @@ const breakpoints = {
 
 }
 
-const pets = ref <IPet[]>([])
+const { result, loading, error } = query.get()
 
-watch(query.get(), result =>
-  pets.value = result?.getPets,
-)
+const pets = computed(() => result.value?.getPets as IPet[] ?? [])
 </script>
 
 <template>
-  <div class="flex justify-center">
+  <div v-if="loading" class="flex justify-center">
+    Loading...
+  </div>
+
+  <div v-else-if="error" class="flex justify-center text-error">
+    {{ error.message }}
+  </div>
+
+  <div v-else-if="pets" class="flex justify-center">
     <VueperSlides
-    :dragging-distance="100"
+      :dragging-distance="100"
       :slide-ratio="0.6"
       :breakpoints="breakpoints"
       class="no-shadow"
-      arrows-outside
     >
       <VueperSlide
         v-for="(pet, i) in pets"

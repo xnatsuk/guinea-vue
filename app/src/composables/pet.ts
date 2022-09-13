@@ -8,12 +8,12 @@ import type { IPet } from '@/services/types'
 
 class Query {
   get = () => {
-    const { result, error } = useQuery(GET_PETS)
+    const { result, error, loading } = useQuery(GET_PETS)
 
     if (error.value)
       logErrorMessages(error.value)
 
-    return result
+    return { result, error, loading }
   }
 
   find = (name: Ref<string>) => {
