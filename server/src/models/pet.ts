@@ -1,7 +1,25 @@
-import mongoose from 'mongoose'
+import type { Types } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-const petSchema = new mongoose.Schema({
-  id: mongoose.Schema.Types.ObjectId,
+interface IPetModel {
+  id: Types.ObjectId
+  birthday?: Date
+  deathDate?: Date
+  description?: string
+  favoriteActivity?: string
+  favoriteFood?: string
+  gender?: string
+  name: string
+  nickname?: string
+  photo?: string
+  species?: string
+
+}
+
+const petSchema = new Schema<IPetModel>({
+  id: {
+    type: Schema.Types.ObjectId,
+  },
   name: {
     type: String,
     unique: true,
@@ -34,6 +52,10 @@ const petSchema = new mongoose.Schema({
   photo: {
     type: String,
   },
+}, {
+  timestamps: true,
+  collection: 'pets',
+  versionKey: false,
 })
 
-export default mongoose.model('Pet', petSchema)
+export default model<IPetModel>('Pet', petSchema)
