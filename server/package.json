@@ -7,7 +7,8 @@
   "scripts": {
     "start": "ts-node index.ts",
     "dev": "tsnd --respawn index.ts",
-    "test": "NODE_ENV=test jest -i --colors --verbose"
+    "test": "NODE_ENV=test jest -i --colors --verbose",
+    "generate": "graphql-codegen"
   },
   "dependencies": {
     "apollo-server-core": "^3.10.1",
@@ -21,6 +22,9 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
+    "@graphql-codegen/cli": "^2.12.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-resolvers": "^2.7.3",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^28.1.7",
