@@ -1,57 +1,58 @@
 import { DateResolver } from 'graphql-scalars'
+import type { IPet, Maybe, MutationCreatePetArgs, MutationDeletePetArgs, MutationUpdatePetArgs, QueryFindPetArgs, Resolvers } from 'src/types'
 import Pet from '../../models/pet'
 
-const resolvers = {
+const resolvers: Resolvers = {
   Date: DateResolver,
 
   Query: {
-    getPets: async () => {
-      return await Pet.find({})
+    getPets: async (): Promise<IPet[]> => {
+      try {
+        return await Pet.find({})
+      }
+      catch (error) {
+        throw new Error('Error getting pets', error)
+      }
     },
 
-    findPet: async (root: any, args: any) => {
-      return await Pet.findOne({ name: args.name })
+    findPet: async (_, { name }: QueryFindPetArgs): Promise<Maybe<IPet>> => {
+      try {
+        console.log(name)
+        return await Pet.findOne({ name })
+      }
+      catch (error) {
+        throw new Error('Error finding pet', error)
+      }
     },
   },
 
   Mutation: {
-    createPet: async (root: any, args: any) => {
-      const pet = await Pet.findOne({ name: args.name })
-      const newPet = new Pet({ name: args.name })
-      if (pet)
-        throw new Error('Pet already exists')
-
+    createPet: async (_, { name }: MutationCreatePetArgs): Promise<Maybe<IPet>> => {
       try {
-        await newPet.save()
+        const newPet = new Pet({ name })
+        return await newPet.save()
       }
       catch (error) {
-        throw new Error('Couldn\'t create pet')
+        throw new Error('Couldn\'t create pet', error)
       }
-
-      return newPet
     },
 
-    updatePet: async (root: any, args: any) => {
-      const pet = await Pet.findOne({ name: args.name })
-      if (!pet)
-        throw new Error('Pet not found')
-
+    updatePet: async (_, { name, updatePet }: MutationUpdatePetArgs): Promise<Maybe<IPet>> => {
       try {
-        await Pet.findByIdAndUpdate({ id: pet.id }, { ...args }, { new: true })
+        return await Pet.findOneAndUpdate({ name }, { ...updatePet }, { new: true })
       }
       catch (error) {
-        throw new Error('Couldn\'t update pet')
+        throw new Error('Couldn\'t update pet', error)
       }
-
-      return pet
     },
 
-    deletePet: async (args: any) => {
-      const pet = await Pet.findOne({ name: args.name })
-      if (!pet)
-        throw new Error('Pet not found')
-
-      return await Pet.findByIdAndDelete({ id: pet.id })
+    deletePet: async (_, { name }: MutationDeletePetArgs): Promise<Maybe<IPet>> => {
+      try {
+        return await Pet.findOneAndDelete({ name })
+      }
+      catch (error) {
+        throw new Error('Couldn\'t delete pet', error)
+      }
     },
   },
 }
