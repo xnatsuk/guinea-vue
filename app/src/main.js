@@ -1,10 +1,9 @@
 import { createApp, h, provide } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
-import { defaultConfig, plugin } from '@formkit/vue'
-import formKitConfig from '../formkit.config.js'
-import { apolloClient, apolloProvider } from './apollo-client'
+import { apolloClient } from './apollo-client'
 import App from './App.vue'
 import router from './router'
+import 'uno.css'
 import './assets/styles.css'
 
 const app = createApp({
@@ -13,7 +12,7 @@ const app = createApp({
   },
   render: () => h(App),
 })
-app.use(plugin, defaultConfig(formKitConfig))
-app.use(apolloProvider)
+
 app.use(router)
+
 app.mount('#app')
