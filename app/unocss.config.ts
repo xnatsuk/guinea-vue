@@ -4,6 +4,8 @@ import {
   presetIcons,
   presetTypography,
   presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
 } from 'unocss'
 
 export default defineConfig({
@@ -17,5 +19,9 @@ export default defineConfig({
         'vertical-align': 'middle',
       },
     }),
+  ],
+  transformers: [
+    transformerDirectives(),
+    transformerVariantGroup(),
   ],
 })
