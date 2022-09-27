@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 apollo.config.js
+codegen.ts
 .env
 
 # Editor directories and files
