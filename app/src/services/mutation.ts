@@ -10,11 +10,10 @@ export const CREATE_PET = gql`
 `
 
 export const UPDATE_PET = gql`
-  mutation UpdatePet($updatePet: UpdatePet) {
-    updatePet(updatePet: $updatePet) {
-      id
-      __typename
-      ...PetFragment
+  mutation UpdatePet($name: String!, $updatePet: UpdatePet) {
+    updatePet(name: $name, updatePet: $updatePet) {
+      name
+        ...PetFragment
     }
   }
   ${petFragment}
