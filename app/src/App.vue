@@ -1,11 +1,10 @@
 <script setup>
-
+import { configProvider } from '@/composables/configProvider'
 </script>
 
 <template>
-  <Navigation />
-  <RouterView />
+  <n-config-provider v-bind="configProvider">
+    <Navigation />
+    <RouterView />
+  </n-config-provider>
 </template>
-
-<style scoped>
-</style>

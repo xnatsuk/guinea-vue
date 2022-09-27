@@ -15,6 +15,7 @@ declare global {
   const computedEager: typeof import('@vueuse/core')['computedEager']
   const computedInject: typeof import('@vueuse/core')['computedInject']
   const computedWithControl: typeof import('@vueuse/core')['computedWithControl']
+  const configProvider: typeof import('./src/composables/configProvider')['configProvider']
   const controlledComputed: typeof import('@vueuse/core')['controlledComputed']
   const controlledRef: typeof import('@vueuse/core')['controlledRef']
   const createApp: typeof import('vue')['createApp']
@@ -39,6 +40,7 @@ declare global {
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
+  const isDark: typeof import('./src/composables/dark')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
@@ -94,12 +96,14 @@ declare global {
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
   const templateRef: typeof import('@vueuse/core')['templateRef']
   const test: typeof import('vitest')['test']
+  const theme: typeof import('./src/composables/configProvider')['theme']
   const throttledRef: typeof import('@vueuse/core')['throttledRef']
   const throttledWatch: typeof import('@vueuse/core')['throttledWatch']
   const toRaw: typeof import('vue')['toRaw']
   const toReactive: typeof import('@vueuse/core')['toReactive']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
+  const toggleDark: typeof import('./src/composables/dark')['toggleDark']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
   const tryOnBeforeUnmount: typeof import('@vueuse/core')['tryOnBeforeUnmount']
@@ -292,6 +296,7 @@ declare module '@vue/runtime-core' {
     readonly computedEager: UnwrapRef<typeof import('@vueuse/core')['computedEager']>
     readonly computedInject: UnwrapRef<typeof import('@vueuse/core')['computedInject']>
     readonly computedWithControl: UnwrapRef<typeof import('@vueuse/core')['computedWithControl']>
+    readonly configProvider: UnwrapRef<typeof import('./src/composables/configProvider')['configProvider']>
     readonly controlledComputed: UnwrapRef<typeof import('@vueuse/core')['controlledComputed']>
     readonly controlledRef: UnwrapRef<typeof import('@vueuse/core')['controlledRef']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
@@ -316,6 +321,7 @@ declare module '@vue/runtime-core' {
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly isDark: UnwrapRef<typeof import('./src/composables/dark')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
@@ -371,12 +377,14 @@ declare module '@vue/runtime-core' {
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly test: UnwrapRef<typeof import('vitest')['test']>
+    readonly theme: UnwrapRef<typeof import('./src/composables/configProvider')['theme']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
+    readonly toggleDark: UnwrapRef<typeof import('./src/composables/dark')['toggleDark']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
     readonly tryOnBeforeUnmount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeUnmount']>
