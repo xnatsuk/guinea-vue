@@ -53,15 +53,15 @@ class Mutation {
   }
 
   update = (name: string, options: IPet) => {
-    const { mutate: updatePet } = useMutation(UPDATE_PET, () => ({
+    const { mutate: editPet } = useMutation(UPDATE_PET, () => ({
       variables: {
         name,
-        options,
+        updatePet: options, // variable must be named as the mutation input in the schema
       },
       errorPolicy: 'all',
     }))
 
-    updatePet()
+    return { editPet }
   }
 
   delete = (name: string) => {
@@ -73,7 +73,7 @@ class Mutation {
       errorPolicy: 'all',
     }))
 
-    deletePet()
+    return { deletePet }
   }
 }
 
