@@ -1,13 +1,9 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core'
 import { onError } from '@apollo/client/link/error'
 import { logErrorMessages } from '@vue/apollo-util'
-import { createApolloProvider } from '@vue/apollo-option'
 
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_URL}/graphql`,
-  fetch: (uri: RequestInfo, options: RequestInit) => {
-    return fetch(uri, options)
-  },
 })
 
 const errorLink = onError((error) => {
@@ -16,24 +12,7 @@ const errorLink = onError((error) => {
 })
 
 export const apolloClient = new ApolloClient({
-  cache: new InMemoryCache({
-    typePolicies: {
-      Pet: {
-        keyFields: ['name'],
-      },
-    },
-  }),
+  cache: new InMemoryCache(),
   link: errorLink.concat(httpLink),
   connectToDevTools: true,
-})
-
-export const apolloProvider = createApolloProvider({
-  defaultClient: apolloClient,
-  defaultOptions: {
-    $query: {
-      loadingKey: 'loading',
-      fetchPolicy: 'cache-and-network',
-    },
-  },
-
 })

@@ -1,105 +1,208 @@
 <script setup lang="ts">
-interface props {
+import { provideApolloClient } from '@vue/apollo-composable'
+import type { FormItemRule, FormRules } from 'naive-ui'
+import { apolloClient } from '@/apollo-client'
+
+const prop = defineProps<{
   name: string
-  birthday?: string | Date
   gender?: string
   species?: string
   nickname?: string
+  birthday?: string | Date
   deathDate?: string | Date
   favoriteFood?: string
   favoriteActivity?: string
   description?: string
   photo?: string
+}>()
 
+provideApolloClient(apolloClient)
+
+const pet = ref({
+  name: prop.name,
+  gender: prop.gender,
+  species: prop.species,
+  nickname: prop.nickname,
+  birthday: prop.birthday,
+  deathDate: prop.deathDate,
+  favoriteFood: prop.favoriteFood,
+  favoriteActivity: prop.favoriteActivity,
+  description: prop.description,
+  photo: prop.photo,
+})
+
+const rules: FormRules = {
+  name: [
+    {
+      required: true,
+      message: 'Name is required',
+      trigger: ['input', 'blur'],
+      validator(rule: FormItemRule, value: string) {
+        if (!value)
+          return new Error('Name is required')
+
+        else if (value.length < 1)
+          return new Error('Name must be at least 2 characters')
+
+        else if (value.length > 20)
+          return new Error('Name must be less than 20 characters')
+
+        return true
+      },
+    },
+  ],
 }
 
-const prop = defineProps<props>()
-const emit = defineEmits(['submit'])
+const { editPet } = mutation.update(prop.name, pet.value)
 </script>
 
 <template>
-  <FormKit
-    type="form"
-    name="pet"
-    :value="{
-      name: prop.name,
-      birthday: prop.birthday,
-      gender: prop.gender,
-      species: prop.species,
-      nickname: prop.nickname,
-      deathDate: prop.deathDate,
-      favoriteFood: prop.favoriteFood,
-      favoriteActivity: prop.favoriteActivity,
-      description: prop.description,
-      photo: prop.photo,
-    }"
-    @click="emit('submit')"
+  <n-form
+    label-placement="top"
+    :rules="rules"
+    :model="pet"
   >
-    <FormKit
-      type="text"
-      label="*Name"
-      name="name"
-      validation="required|matches:/^@[a-zA-Z]+$/"
+    <n-image
+      :src="pet.photo"
+      :height="300"
+      :width="500"
+      bordered
     />
 
-    <FormKit
-      type="text"
-      label="Nickname"
-      name="nickname"
-      validation="matches:/^@[a-zA-Z]+$/"
-    />
+    <n-form-item label="Photo" :path="prop.photo">
+      <n-input
+        v-model:value="pet.photo"
+        placeholder="Image URL"
+        :input-props="{ type: 'url' }"
+        clearable
+      >
+        <template #prefix>
+          <n-icon class="i-carbon-image" />
+        </template>
+      </n-input>
+    </n-form-item>
 
-    <FormKit
-      type="textarea"
-      label="Description"
-      name="description"
-    />
+    <n-space>
+      <n-form-item label="Name" :path="prop.name">
+        <n-input
+          v-model:value="pet.name"
+          type="text"
+          placeholder="Your pet's name"
+          clearable
+        >
+          <template #prefix>
+            <n-icon class="i-carbon-user-avatar-filled-alt" />
+          </template>
+        </n-input>
+      </n-form-item>
 
-    <FormKit
-      type="text"
-      label="Species"
-      name="species"
-    />
+      <n-form-item label="Nickname" :path="prop.nickname">
+        <n-input
+          v-model:value="pet.nickname"
+          type="text"
+          placeholder="Your pet's nickname"
+          clearable
+        >
+          <template #prefix>
+            <n-icon class="i-carbon-user-avatar-filled-alt" />
+          </template>
+        </n-input>
+      </n-form-item>
+    </n-space>
 
-    <FormKit
-      type="date"
-      label="Birthday"
-      name="birthday"
-    />
+    <n-form-item label="Description" :path="prop.description">
+      <n-input
+        v-model:value="pet.description"
+        type="textarea"
+        placeholder="Enter a description"
+        :autosize="{ minRows: 1, maxRows: 5 }"
+        clearable
+      >
+        <template #prefix>
+          <n-icon class="i-carbon-information" />
+        </template>
+      </n-input>
+    </n-form-item>
 
-    <FormKit
-      type="date"
-      label="Death Date"
-      name="deathDate"
-    />
+    <n-form-item label="Species" :path="prop.species">
+      <n-input
+        v-model:value="pet.species"
+        type="text"
+        placeholder="Your pet's species"
+        clearable
+      >
+        <template #prefix>
+          <n-icon class="i-cil-animal" />
+        </template>
+      </n-input>
+    </n-form-item>
 
-    <FormKit
-      type="radio"
-      label="Gender"
-      :options="{
-        male: 'Male',
-        female: 'Female',
-      }"
-    />
+    <n-form-item label="Favorite Food" :path="prop.favoriteFood">
+      <n-input
+        v-model:value="pet.favoriteFood"
+        type="text"
+        placeholder="Your pet's favorite food"
+        clearable
+      >
+        <template #prefix>
+          <n-icon class="i-fluent-food-carrot-24-regular" />
+        </template>
+      </n-input>
+    </n-form-item>
 
-    <FormKit
-      type="text"
-      label="Favorite Food"
-      name="favoriteFood"
-    />
+    <n-form-item label="Favorite Activity" :path="prop.favoriteActivity">
+      <n-input
+        v-model:value="pet.favoriteActivity"
+        type="text"
+        placeholder="Your pet's favorite activity"
+        clearable
+      >
+        <template #prefix>
+          <n-icon class="i-ic-baseline-sports" />
+        </template>
+      </n-input>
+    </n-form-item>
 
-    <FormKit
-      type="text"
-      label="Favorite Activity"
-      name="favoriteActivity"
-    />
+    <n-space>
+      <n-form-item label="Birthday" :path="prop.birthday">
+        <n-date-picker
+          v-model:formatted-value="pet.birthday"
+          value-format="yyyy-MM-dd"
+          type="date"
+          clearable
+        />
+      </n-form-item>
 
-    <FormKit
-      type="text"
-      label="Photo"
-      name="photo"
-      validation="url"
-      help="Enter an image URL"
-    />
-  </FormKit>
+      <n-form-item label="Death Date" :path="prop.deathDate">
+        <n-date-picker
+          v-model:formatted-value="pet.deathDate"
+          value-format="yyyy-MM-dd"
+          type="date"
+          clearable
+        />
+      </n-form-item>
+    </n-space>
+
+    <n-form-item label="Gender" :path="prop.gender">
+      <n-radio-group v-model:value="pet.gender">
+        <n-space>
+          <n-radio value="Male">
+            Male
+          </n-radio>
+          <n-radio value="Female">
+            Female
+          </n-radio>
+        </n-space>
+      </n-radio-group>
+    </n-form-item>
+
+    <n-button
+      size="large"
+      type="primary"
+      block
+      @click="editPet()"
+    >
+      Submit
+    </n-button>
+  </n-form>
 </template>

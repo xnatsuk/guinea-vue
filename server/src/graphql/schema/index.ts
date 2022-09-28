@@ -7,7 +7,7 @@ const typeDefs = gql`
   ${DateTypeDefinition}
 
   type Pet {
-    id: ID!
+    _id: ID
     name: String!
     birthday: Date
     gender: String
@@ -21,7 +21,7 @@ const typeDefs = gql`
   }
 
   input UpdatePet {
-    name: String!
+    name: String
     birthday: Date
     gender: String
     species: String
@@ -40,13 +40,13 @@ const typeDefs = gql`
 
   type Mutation {
     createPet(name: String!): Pet
-    updatePet(updatePet: UpdatePet): Pet
+    updatePet(name: String! updatePet: UpdatePet): Pet
     deletePet(name: String!): Pet
   }
 `
 const schema: ApolloServerExpressConfig = {
   typeDefs,
-  resolvers,
+  resolvers: resolvers as any,
   introspection: true,
   csrfPrevention: true,
 }

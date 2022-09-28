@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from '@vue/apollo-composable'
-import type { Ref } from 'vue'
 import { logErrorMessages } from '@vue/apollo-util'
 import { CREATE_PET, DELETE_PET, UPDATE_PET } from '@/services/mutation'
 import { FIND_PET, GET_PETS } from '@/services/query'
-import { petFragment } from '@/services/fragments'
-import type { IPet } from '@/services/types'
+import type { IPet } from '@/types'
 
 class Query {
   get = () => {
-    const { result, error, loading } = useQuery(GET_PETS)
+    const { result, error, loading } = useQuery(GET_PETS, null, {
+      fetchPolicy: 'cache-and-network',
+      errorPolicy: 'all',
+    })
 
     if (error.value)
       logErrorMessages(error.value)
@@ -16,77 +17,63 @@ class Query {
     return { result, error, loading }
   }
 
-  find = (name: Ref<string>) => {
+  find = (name: string) => {
     const { result, error } = useQuery(FIND_PET, () => ({
-      name: name.value,
-    }))
+      name,
+    }), {
+      fetchPolicy: 'cache-and-network',
+      errorPolicy: 'all',
+
+    })
 
     if (error.value)
       logErrorMessages(error.value)
 
-    return result.value
+    return { result, error }
   }
 }
 
 class Mutation {
-  create = (name: Ref<string>) => {
-    const { mutate, onDone } = useMutation(CREATE_PET, () => ({
+  create = (name: string) => {
+    const { mutate: createPet } = useMutation(CREATE_PET, () => ({
       variables: {
-        name: name.value,
+        name,
       },
 
-      update: (cache, { data: { name } }) => {
-        cache.modify({
-          fields: {
-            getPets(existingPets = []) {
-              const newPetRef = cache.writeFragment({
-                data: { name }, fragment: petFragment,
-              })
-
-              return [...existingPets, newPetRef]
-            },
-          },
-        })
+      update: (cache, { data: { createPet } }) => {
+        let data: any = cache.readQuery({ query: GET_PETS })
+        data = { ...data, pets: [...data.pets, createPet] }
+        cache.writeQuery({ query: GET_PETS, data })
       },
+
+      errorPolicy: 'all',
     }))
 
-    mutate()
-    onDone((result) => {
-      console.log(result)
-    })
+    createPet()
   }
 
-  update = (name: Ref<string>, options: Ref<IPet>) => {
-    const { mutate, onDone } = useMutation(UPDATE_PET, () => ({
+  update = (name: string, options: IPet) => {
+    const { mutate: editPet } = useMutation(UPDATE_PET, () => ({
       variables: {
-        name: name.value,
+        name,
+        updatePet: options, // variable must be named as the mutation input in the schema
       },
-
-      optimisticResponse: {
-        updatePet: {
-          __typename: 'Pet',
-          ...options.value,
-        },
-      },
+      errorPolicy: 'all',
     }))
 
-    mutate()
-    onDone((result) => {
-      console.log(result)
-    })
+    return { editPet }
   }
 
-  delete = (name: Ref<string>) => {
-    const { mutate, onDone } = useMutation(DELETE_PET, () => ({
+  delete = (name: string) => {
+    const { mutate: deletePet } = useMutation(DELETE_PET, () => ({
       variables: {
-        name: name.value,
+        name,
       },
+
+      errorPolicy: 'all',
     }))
 
-    mutate()
-    onDone((result) => {
-      console.log(result)
-    })
+    return { deletePet }
   }
 }
 

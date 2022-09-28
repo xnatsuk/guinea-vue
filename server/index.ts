@@ -3,7 +3,7 @@ import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import mongoose from 'mongoose'
 import config from './config'
-import schema from './src/graphql/schema/index'
+import schema from './src/graphql/schema'
 
 const connectDb = async () => {
   const db = `mongodb://${config.MONGODB_USER}:${config.MONGODB_PASSWORD}@${config.MONGODB_HOST}?authSource=admin`

@@ -1,5 +1,8 @@
-import { defineConfig } from 'vite'
+import path from 'path'
 import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 
@@ -7,12 +10,12 @@ import Components from 'unplugin-vue-components/vite'
 export default defineConfig({
   resolve: {
     alias: {
-      '@/': 'src/',
+      '@/': `${path.resolve('src')}/`,
     },
   },
   plugins: [
     vue(),
-
+    Unocss(),
     AutoImport({
       dts: true,
       imports: [
@@ -25,7 +28,6 @@ export default defineConfig({
       dirs: [
         'src/composables',
         'src/components',
-        'src/store',
         'src/views',
         'src/router',
       ],
@@ -36,6 +38,7 @@ export default defineConfig({
     }),
     Components({
       dts: true,
+      resolvers: [NaiveUiResolver()],
     })],
 
   test: {

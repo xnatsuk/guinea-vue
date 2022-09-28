@@ -16,6 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./node_modules/@types"],
     "types": [
+      "naive-ui/volar",
       "vitest/globals",
       "vite/client",
       "node"

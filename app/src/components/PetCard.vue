@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
 interface props {
-  name: string
+  name?: string
   birthday?: string | Date
   gender?: string
   species?: string
@@ -11,55 +10,86 @@ interface props {
   favoriteActivity?: string
   description?: string
   photo?: string
-
 }
+
 const prop = defineProps<props>()
 </script>
 
 <template>
-  <div>
-    <div class="card lg:card-side bg-base-300 shadow-lg ">
-      <figure>
-        <div v-if="prop.photo">
-          <img :src="prop.photo" class="max-w-4xl lg:max-w-lg">
-        </div>
-        <div v-else class="artboard artboard-horizontal phone-1" />
-      </figure>
-      <div class="card-body ">
-        <h2 class="card-title">
-          {{ prop.name }}
-          <div class="badge badge-secondary">
-            {{ prop.nickname }}
-          </div>
-        </h2>
+  <div class="flex justify-center">
+    <n-card size="medium" bordered>
+      <template #cover>
+        <n-image
+          :src="prop.photo"
+          :alt="prop.name"
+          fallback-src="https://via.placeholder.com/800x620"
+        />
+      </template>
 
-        <p class="text-accent">
-          {{ prop.birthday }} - {{ prop.deathDate }}
-        </p>
-        <p class="max-w-xs">
-          {{ prop.description }}
-        </p>
+      <template #header>
+        <n-h1 prefix="bar">
+          <n-text type="primary" strong>
+            {{ prop.name }}
+          </n-text>
+          <span class="mx-2">
+            <n-tag round :bordered="false" type="warning" class="mx-2">
+              {{ prop.nickname }}
+              <template #icon>
+                <n-icon class="i-carbon-user-avatar-filled-alt" />
+              </template>
+            </n-tag>
+          </span>
+        </n-h1>
+      </template>
 
-        <div class="mx-4">
-          <li class="text-lg">
+      <template #header-extra>
+        <n-h4>
+          <n-text depth="3" class="text-zinc-400">
+            {{ prop.birthday }} - {{ prop.deathDate }}
+          </n-text>
+        </n-h4>
+      </template>
+
+      <n-p>
+        {{ prop.description }}
+      </n-p>
+
+      <div class="mx-4 my-4">
+        <n-li>
+          <n-text strong class="text-lg text-purple-700 dark:text-purple">
             Favorite food:
-            <span class="text-base">{{ prop.favoriteFood }}</span>
-          </li>
-          <li class="text-lg">
+          </n-text>
+          <span>{{ prop.favoriteFood }}</span>
+        </n-li>
+        <n-li>
+          <n-text strong class="text-lg text-purple-700 dark:text-purple">
             Favorite activity:
-            <span class="text-base">{{ prop.favoriteActivity }}</span>
-          </li>
-        </div>
-
-        <span class="justify-end">
-          <div class="badge badge-info mx-2">
-            {{ prop.species }}
-          </div>
-          <div class="badge badge-accent mx-2">
-            {{ prop.gender }}
-          </div>
-        </span>
+          </n-text>
+          <span>{{ prop.favoriteActivity }}</span>
+        </n-li>
       </div>
-    </div>
+
+      <span>
+        <n-tag round :bordered="false" type="error" class="mx-2">
+          {{ prop.gender }}
+          <template #icon>
+            <n-icon class="i-icons8-gender" />
+          </template>
+        </n-tag>
+        <n-tag round :bordered="false" type="success" class="mx-2">
+          {{ prop.species }}
+          <template #icon>
+            <n-icon class="i-cil-animal" />
+          </template>
+        </n-tag>
+      </span>
+    </n-card>
   </div>
 </template>
+
+<style scoped>
+.n-card, .n-card--bordered {
+  max-width: 800px;
+  max-height: 870px;
+}
+</style>
