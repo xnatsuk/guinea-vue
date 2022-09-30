@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface props {
+const prop = defineProps<{
   name?: string
   birthday?: string | Date
   gender?: string
@@ -10,9 +10,7 @@ interface props {
   favoriteActivity?: string
   description?: string
   photo?: string
-}
-
-const prop = defineProps<props>()
+}>()
 </script>
 
 <template>
