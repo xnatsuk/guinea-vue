@@ -1,30 +1,19 @@
 <script setup lang="ts">
 import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NButton } from 'naive-ui'
+import { NAvatar, NButton, NIcon } from 'naive-ui'
 import type { IPet } from '@/types'
 
-interface RowData {
-  _id?: string
-  photo?: string
-  name?: string
-  nickname?: string
-  species?: string
-  gender?: string
-  birthday?: Date | string
-  deathDate?: Date | string
-  favoriteFood?: string
-  favoriteActivity?: string
-  description?: string
-}
+type RowData = IPet
 
 const { result } = query.get()
 
 const data = computed(() => result.value?.getPets as IPet[] ?? [])
 
 const createColumns = ({
-  edit,
+  edit, remove,
 }: {
   edit: (rowData: RowData) => void
+  remove: (rowData: RowData) => void
 }): DataTableColumns<RowData> => {
   return [
     {
@@ -37,7 +26,7 @@ const createColumns = ({
             round: true,
             size: 'large',
             src: row.photo,
-            alt: row._id,
+            alt: row.name,
           },
         )
       },
@@ -48,33 +37,64 @@ const createColumns = ({
       ellipsis: {
         tooltip: true,
       },
+      defaultSortOrder: false,
+      sorter: 'default',
     },
     {
       title: 'Name',
       key: 'name',
+      ellipsis: {
+        tooltip: true,
+      },
+      defaultSortOrder: false,
+      sorter: 'default',
     },
     {
       title: 'Nickname',
       key: 'nickname',
+      ellipsis: {
+        tooltip: true,
+      },
+      defaultSortOrder: false,
+      sorter: 'default',
     },
     {
       title: 'Species',
       key: 'species',
+      ellipsis: {
+        tooltip: true,
+      },
+      defaultSortOrder: false,
+      sorter: 'default',
     },
     {
       title: 'Gender',
       key: 'gender',
       width: 100,
+      defaultFilterOptionValues: null,
+      filterOptions: [
+        {
+          label: 'Male',
+          value: 'Female', // has to be opposite of what you want to filter
+        },
+        {
+          label: 'Female',
+          value: 'Male',
+        },
+      ],
+      filter(value, row) {
+        return row.gender.indexOf(value.toString())
+      },
     },
     {
       title: 'Birthday',
       key: 'birthday',
-      width: 150,
+      width: 100,
     },
     {
       title: 'Death Date',
       key: 'deathDate',
-      width: 150,
+      width: 100,
     },
     {
       title: 'Edit Info',
@@ -90,6 +110,26 @@ const createColumns = ({
           })
       },
     },
+    {
+      title: 'Remove',
+      key: 'remove',
+      width: 100,
+      render(row) {
+        return h(NButton,
+          {
+            onClick: () => remove(row),
+          },
+          {
+            default: () => {
+              return h(NIcon, {
+                class: 'i-carbon-trash-can',
+                size: 18,
+                color: '#e88080',
+              })
+            },
+          })
+      },
+    },
   ]
 }
 
@@ -101,6 +141,10 @@ const columns = createColumns({
     showModal.value = true
     editRow.value = rowData
   },
+
+  remove: (rowData: RowData) => {
+    console.log('remove', rowData)
+  },
 })
 </script>
 
@@ -111,7 +155,6 @@ const columns = createColumns({
       :data="data"
       :max-height="500"
       :scroll-x="1000"
-      remote
     />
   </n-space>
 
@@ -121,13 +164,13 @@ const columns = createColumns({
     preset="dialog"
     :mask-closable="true"
     :block-scroll="false"
-    bordered
     style="width: 600px"
   >
-    <template #default>
-      <n-space justify="center">
-        <PetForm v-bind="editRow" />
-      </n-space>
-    </template>
+    <n-space justify="center">
+      <PetForm
+        v-bind="editRow"
+        @form-submit="showModal = false"
+      />
+    </n-space>
   </n-modal>
 </template>

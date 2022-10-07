@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { provideApolloClient } from '@vue/apollo-composable'
-import type { FormItemRule, FormRules } from 'naive-ui'
+import type { FormInst, FormItemRule, FormRules } from 'naive-ui'
+import type { ApolloError } from '@apollo/client/errors'
 import { apolloClient } from '@/apollo-client'
 
 const prop = defineProps<{
@@ -14,6 +15,10 @@ const prop = defineProps<{
   favoriteActivity?: string
   description?: string
   photo?: string
+}>()
+
+const emit = defineEmits<{
+  (e: 'formSubmit'): void
 }>()
 
 provideApolloClient(apolloClient)
@@ -31,17 +36,22 @@ const pet = ref({
   photo: prop.photo,
 })
 
+const { editPet, error, loading } = mutation.update(prop.name, pet.value)
+
+const formRef = ref<FormInst | null>(null)
+const submitError = ref<boolean>(false)
+const notificationRef = ref<string | ApolloError | unknown>()
+
 const rules: FormRules = {
   name: [
     {
       required: true,
-      message: 'Name is required',
       trigger: ['input', 'blur'],
       validator(rule: FormItemRule, value: string) {
         if (!value)
           return new Error('Name is required')
 
-        else if (value.length < 1)
+        else if (value.length < 2)
           return new Error('Name must be at least 2 characters')
 
         else if (value.length > 20)
@@ -53,11 +63,26 @@ const rules: FormRules = {
   ],
 }
 
-const { editPet } = mutation.update(prop.name, pet.value)
+const onSubmit = async () => {
+  try {
+    loading.value = true
+    return await editPet()
+  }
+  catch (err) {
+    submitError.value = true
+    return notificationRef.value = err && error.value
+  }
+  finally {
+    loading.value = false
+    emit('formSubmit')
+    notificationRef.value = `${pet.value.name}'s information was updated successfully`
+  }
+}
 </script>
 
 <template>
   <n-form
+    ref="formRef"
     label-placement="top"
     :rules="rules"
     :model="pet"
@@ -66,10 +91,9 @@ const { editPet } = mutation.update(prop.name, pet.value)
       :src="pet.photo"
       :height="300"
       :width="500"
-      bordered
     />
 
-    <n-form-item label="Photo" :path="prop.photo">
+    <n-form-item label="Photo">
       <n-input
         v-model:value="pet.photo"
         placeholder="Image URL"
@@ -83,7 +107,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
     </n-form-item>
 
     <n-space>
-      <n-form-item label="Name" :path="prop.name">
+      <n-form-item label="Name" path="name">
         <n-input
           v-model:value="pet.name"
           type="text"
@@ -96,7 +120,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
         </n-input>
       </n-form-item>
 
-      <n-form-item label="Nickname" :path="prop.nickname">
+      <n-form-item label="Nickname">
         <n-input
           v-model:value="pet.nickname"
           type="text"
@@ -110,7 +134,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
       </n-form-item>
     </n-space>
 
-    <n-form-item label="Description" :path="prop.description">
+    <n-form-item label="Description">
       <n-input
         v-model:value="pet.description"
         type="textarea"
@@ -124,7 +148,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
       </n-input>
     </n-form-item>
 
-    <n-form-item label="Species" :path="prop.species">
+    <n-form-item label="Species">
       <n-input
         v-model:value="pet.species"
         type="text"
@@ -137,7 +161,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
       </n-input>
     </n-form-item>
 
-    <n-form-item label="Favorite Food" :path="prop.favoriteFood">
+    <n-form-item label="Favorite Food">
       <n-input
         v-model:value="pet.favoriteFood"
         type="text"
@@ -150,7 +174,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
       </n-input>
     </n-form-item>
 
-    <n-form-item label="Favorite Activity" :path="prop.favoriteActivity">
+    <n-form-item label="Favorite Activity">
       <n-input
         v-model:value="pet.favoriteActivity"
         type="text"
@@ -164,7 +188,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
     </n-form-item>
 
     <n-space>
-      <n-form-item label="Birthday" :path="prop.birthday">
+      <n-form-item label="Birthday">
         <n-date-picker
           v-model:formatted-value="pet.birthday"
           value-format="yyyy-MM-dd"
@@ -173,7 +197,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
         />
       </n-form-item>
 
-      <n-form-item label="Death Date" :path="prop.deathDate">
+      <n-form-item label="Death Date">
         <n-date-picker
           v-model:formatted-value="pet.deathDate"
           value-format="yyyy-MM-dd"
@@ -183,7 +207,7 @@ const { editPet } = mutation.update(prop.name, pet.value)
       </n-form-item>
     </n-space>
 
-    <n-form-item label="Gender" :path="prop.gender">
+    <n-form-item label="Gender">
       <n-radio-group v-model:value="pet.gender">
         <n-space>
           <n-radio value="Male">
@@ -197,10 +221,11 @@ const { editPet } = mutation.update(prop.name, pet.value)
     </n-form-item>
 
     <n-button
+      :disabled="pet.name.length < 2 || pet.name.length > 20"
       size="large"
       type="primary"
       block
-      @click="editPet()"
+      @click="onSubmit()"
     >
       Submit
     </n-button>
