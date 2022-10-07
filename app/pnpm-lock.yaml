@@ -15,7 +15,7 @@ specifiers:
   graphql: ^16.6.0
   graphql-tag: ^2.12.6
   husky: ^8.0.1
-  naive-ui: ^2.33.3
+  naive-ui: ^2.33.4
   pinia: ^2.0.22
   pnpm: ^7.12.2
   typescript: ^4.8.4
@@ -48,7 +48,7 @@ devDependencies:
   '@vue/test-utils': 2.1.0_vue@3.2.40
   eslint: 8.24.0
   husky: 8.0.1
-  naive-ui: 2.33.3_vue@3.2.40
+  naive-ui: 2.33.4_vue@3.2.40
   pnpm: 7.12.2
   typescript: 4.8.4
   unocss: 0.45.26_vite@3.1.4
@@ -2784,8 +2784,8 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
-  /naive-ui/2.33.3_vue@3.2.40:
-    resolution: {integrity: sha512-yz2aKdghMVadtvCSBXyjU2bAuGmwLEUcbzmXdUhSdtcbI6mT+mT8vRy43FnbJangPQ87v080q453vtnydNcnhA==}
+  /naive-ui/2.33.4_vue@3.2.40:
+    resolution: {integrity: sha512-4tK2lWx3v8sbEeTLG/tL5Ur9VvZyUxSnC0VcTO6NO1rM/D15JXg8jVwQCRFYnEp7mp3gfD5B3i8kN4JisTeiFA==}
     peerDependencies:
       vue: ^3.0.0
     dependencies:
