@@ -1,6 +1,6 @@
 export interface IPet {
   id?: string
-  name?: string
+  name: string
   birthday?: Date | string
   gender?: string
   species?: string

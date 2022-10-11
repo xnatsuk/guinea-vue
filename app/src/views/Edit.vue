@@ -1,3 +1,4 @@
 <template>
   <PetTable />
+  <PetCreate />
 </template>

@@ -1,4 +1,5 @@
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql'
+import type mongoose from 'mongoose'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -7,12 +8,26 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> }
 /** All built-in and custom scalars, mapped to their actual values */
 export interface Scalars {
-  ID: string
+  ID: string | mongoose.Types.ObjectId
   String: string
   Boolean: boolean
   Int: number
   Float: number
   Date: any
+}
+
+export interface CreatePet {
+  _id?: InputMaybe<Scalars['ID']>
+  birthday?: InputMaybe<Scalars['Date']>
+  deathDate?: InputMaybe<Scalars['Date']>
+  description?: InputMaybe<Scalars['String']>
+  favoriteActivity?: InputMaybe<Scalars['String']>
+  favoriteFood?: InputMaybe<Scalars['String']>
+  gender?: InputMaybe<Scalars['String']>
+  name: Scalars['String']
+  nickname?: InputMaybe<Scalars['String']>
+  photo?: InputMaybe<Scalars['String']>
+  species?: InputMaybe<Scalars['String']>
 }
 
 export interface Mutation {
@@ -23,7 +38,7 @@ export interface Mutation {
 }
 
 export interface MutationCreatePetArgs {
-  name: Scalars['String']
+  createPet?: InputMaybe<CreatePet>
 }
 
 export interface MutationDeletePetArgs {
@@ -36,6 +51,8 @@ export interface MutationUpdatePetArgs {
 }
 
 export interface IPet {
+  __typename?: 'Pet'
+  _id?: Maybe<Scalars['ID']>
   birthday?: Maybe<Scalars['Date']>
   deathDate?: Maybe<Scalars['Date']>
   description?: Maybe<Scalars['String']>
@@ -138,10 +155,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export interface ResolversTypes {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
+  CreatePet: CreatePet
   Date: ResolverTypeWrapper<Scalars['Date']>
   ID: ResolverTypeWrapper<Scalars['ID']>
   Mutation: ResolverTypeWrapper<{}>
-  IPet: ResolverTypeWrapper<IPet>
+  Pet: ResolverTypeWrapper<IPet>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']>
   UpdatePet: UpdatePet
@@ -150,10 +168,11 @@ export interface ResolversTypes {
 /** Mapping between all available schema types and the resolvers parents */
 export interface ResolversParentTypes {
   Boolean: Scalars['Boolean']
+  CreatePet: CreatePet
   Date: Scalars['Date']
   ID: Scalars['ID']
   Mutation: {}
-  IPet: IPet
+  Pet: IPet
   Query: {}
   String: Scalars['String']
   UpdatePet: UpdatePet
@@ -164,12 +183,12 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export interface MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> {
-  createPet?: Resolver<Maybe<ResolversTypes['IPet']>, ParentType, ContextType, RequireFields<MutationCreatePetArgs, 'name'>>
-  deletePet?: Resolver<Maybe<ResolversTypes['IPet']>, ParentType, ContextType, RequireFields<MutationDeletePetArgs, 'name'>>
-  updatePet?: Resolver<Maybe<ResolversTypes['IPet']>, ParentType, ContextType, RequireFields<MutationUpdatePetArgs, 'name'>>
+  createPet?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, Partial<MutationCreatePetArgs>>
+  deletePet?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<MutationDeletePetArgs, 'name'>>
+  updatePet?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<MutationUpdatePetArgs, 'name'>>
 }
 
-export interface PetResolvers<ContextType = any, ParentType extends ResolversParentTypes['IPet'] = ResolversParentTypes['IPet']> {
+export interface PetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pet'] = ResolversParentTypes['Pet']> {
   _id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>
   deathDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>
@@ -185,14 +204,14 @@ export interface PetResolvers<ContextType = any, ParentType extends ResolversPar
 }
 
 export interface QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> {
-  findPet?: Resolver<Maybe<ResolversTypes['IPet']>, ParentType, ContextType, RequireFields<QueryFindPetArgs, 'name'>>
-  getPets?: Resolver<Array<ResolversTypes['IPet']>, ParentType, ContextType>
+  findPet?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryFindPetArgs, 'name'>>
+  getPets?: Resolver<Array<ResolversTypes['Pet']>, ParentType, ContextType>
 }
 
 export interface Resolvers<ContextType = any> {
   Date?: GraphQLScalarType
   Mutation?: MutationResolvers<ContextType>
-  IPet?: PetResolvers<ContextType>
+  Pet?: PetResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
 }
 

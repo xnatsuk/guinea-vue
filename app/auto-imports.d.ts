@@ -49,8 +49,10 @@ declare global {
   const it: typeof import('vitest')['it']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
+  const message: typeof import('./src/composables/message')['message']
   const mutation: typeof import('./src/composables/pet')['mutation']
   const nextTick: typeof import('vue')['nextTick']
+  const notify: typeof import('./src/composables/message')['notify']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
   const onBeforeUnmount: typeof import('vue')['onBeforeUnmount']
@@ -88,6 +90,7 @@ declare global {
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
   const router: typeof import('./src/router/index')['default']
+  const setMessage: typeof import('./src/composables/message')['setMessage']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
@@ -330,8 +333,10 @@ declare module '@vue/runtime-core' {
     readonly it: UnwrapRef<typeof import('vitest')['it']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly message: UnwrapRef<typeof import('./src/composables/message')['message']>
     readonly mutation: UnwrapRef<typeof import('./src/composables/pet')['mutation']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
+    readonly notify: UnwrapRef<typeof import('./src/composables/message')['notify']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
     readonly onBeforeUnmount: UnwrapRef<typeof import('vue')['onBeforeUnmount']>
@@ -369,6 +374,7 @@ declare module '@vue/runtime-core' {
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
     readonly router: UnwrapRef<typeof import('./src/router/index')['default']>
+    readonly setMessage: UnwrapRef<typeof import('./src/composables/message')['setMessage']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>

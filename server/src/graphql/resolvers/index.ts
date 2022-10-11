@@ -1,4 +1,5 @@
 import { DateResolver } from 'graphql-scalars'
+import mongoose from 'mongoose'
 import type { IPet, Maybe, MutationCreatePetArgs, MutationDeletePetArgs, MutationUpdatePetArgs, QueryFindPetArgs, Resolvers } from 'src/types'
 import Pet from '../../models/pet'
 
@@ -17,7 +18,6 @@ const resolvers: Resolvers = {
 
     findPet: async (_, { name }: QueryFindPetArgs): Promise<Maybe<IPet>> => {
       try {
-        console.log(name)
         return await Pet.findOne({ name })
       }
       catch (error) {
@@ -27,9 +27,12 @@ const resolvers: Resolvers = {
   },
 
   Mutation: {
-    createPet: async (_, { name }: MutationCreatePetArgs): Promise<Maybe<IPet>> => {
+    createPet: async (_, { createPet }: MutationCreatePetArgs): Promise<Maybe<IPet>> => {
       try {
-        const newPet = new Pet({ name })
+        const newPet = await Pet.create({
+          _id: new mongoose.Types.ObjectId(),
+          ...createPet,
+        })
         return await newPet.save()
       }
       catch (error) {
