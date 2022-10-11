@@ -1,9 +1,11 @@
-import { useMutation, useQuery } from '@vue/apollo-composable'
+import { provideApolloClient, useMutation, useQuery } from '@vue/apollo-composable'
 import { logErrorMessages } from '@vue/apollo-util'
 import { CREATE_PET, DELETE_PET, UPDATE_PET } from '@/services/mutation'
 import { FIND_PET, GET_PETS } from '@/services/query'
 import type { IPet } from '@/types'
+import { apolloClient } from '@/apollo-client'
 
+provideApolloClient(apolloClient)
 class Query {
   get = () => {
     const { result, error, loading } = useQuery(GET_PETS, null, {
@@ -18,7 +20,7 @@ class Query {
   }
 
   find = (name: string) => {
-    const { result, error } = useQuery(FIND_PET, () => ({
+    const { result, error, loading } = useQuery(FIND_PET, () => ({
       name,
     }), {
       fetchPolicy: 'cache-and-network',
@@ -29,43 +31,50 @@ class Query {
     if (error.value)
       logErrorMessages(error.value)
 
-    return { result, error }
+    return { result, error, loading }
   }
 }
 
 class Mutation {
-  create = (name: string) => {
-    const { mutate: createPet } = useMutation(CREATE_PET, () => ({
+  create = (options: IPet) => {
+    const { mutate: createPet, error: createError, loading: createLoading } = useMutation(CREATE_PET, () => ({
       variables: {
-        name,
+        createPet: options, // variable must be named as the mutation input in the schema
       },
 
-      update: (cache, { data: { createPet } }) => {
-        let data: any = cache.readQuery({ query: GET_PETS })
-        data = { ...data, pets: [...data.pets, createPet] }
-        cache.writeQuery({ query: GET_PETS, data })
-      },
+      // update: (cache, { data: { createPet } }) => {
+      //   let data: any = cache.readQuery({ query: GET_PETS })
+      //   data = { ...data, pets: [...data.pets, createPet] }
+      //   cache.writeQuery({ query: GET_PETS, data })
+      // },
 
       errorPolicy: 'all',
     }))
 
-    createPet()
+    if (createError.value)
+      logErrorMessages(createError.value)
+
+    return { createPet, createError, createLoading }
   }
 
   update = (name: string, options: IPet) => {
-    const { mutate: editPet } = useMutation(UPDATE_PET, () => ({
+    const { mutate: editPet, error: updateError, loading: updateLoading } = useMutation(UPDATE_PET, () => ({
       variables: {
         name,
-        updatePet: options, // variable must be named as the mutation input in the schema
+        updatePet: options, // same as above
       },
+
       errorPolicy: 'all',
     }))
 
-    return { editPet }
+    if (updateError.value)
+      logErrorMessages(updateError.value)
+
+    return { editPet, updateError, updateLoading }
   }
 
   delete = (name: string) => {
-    const { mutate: deletePet } = useMutation(DELETE_PET, () => ({
+    const { mutate: deletePet, error: deleteError, loading: deleteLoading } = useMutation(DELETE_PET, () => ({
       variables: {
         name,
       },
@@ -73,7 +82,7 @@ class Mutation {
       errorPolicy: 'all',
     }))
 
-    return { deletePet }
+    return { deletePet, deleteError, deleteLoading }
   }
 }
 
