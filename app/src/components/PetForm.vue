@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { provideApolloClient } from '@vue/apollo-composable'
 import type { FormInst, FormItemRule, FormRules } from 'naive-ui'
-import type { ApolloError } from '@apollo/client/errors'
-import { apolloClient } from '@/apollo-client'
+import { useMessage } from 'naive-ui'
+import { setMessage } from '@/composables/message'
 
 const prop = defineProps<{
   name: string
@@ -15,13 +14,14 @@ const prop = defineProps<{
   favoriteActivity?: string
   description?: string
   photo?: string
+  type: 'create' | 'update'
 }>()
 
 const emit = defineEmits<{
   (e: 'formSubmit'): void
 }>()
 
-provideApolloClient(apolloClient)
+setMessage(useMessage())
 
 const pet = ref({
   name: prop.name,
@@ -36,11 +36,10 @@ const pet = ref({
   photo: prop.photo,
 })
 
-const { editPet, error, loading } = mutation.update(prop.name, pet.value)
+const { editPet } = mutation.update(prop.name, pet.value)
+const { createPet } = mutation.create(pet.value)
 
 const formRef = ref<FormInst | null>(null)
-const submitError = ref<boolean>(false)
-const notificationRef = ref<string | ApolloError | unknown>()
 
 const rules: FormRules = {
   name: [
@@ -51,10 +50,10 @@ const rules: FormRules = {
         if (!value)
           return new Error('Name is required')
 
-        else if (value.length < 2)
+        if (value.length < 2)
           return new Error('Name must be at least 2 characters')
 
-        else if (value.length > 20)
+        if (value.length > 20)
           return new Error('Name must be less than 20 characters')
 
         return true
@@ -64,18 +63,30 @@ const rules: FormRules = {
 }
 
 const onSubmit = async () => {
-  try {
-    loading.value = true
-    return await editPet()
+  if (prop.type === 'update') {
+    try {
+      await editPet()
+      emit('formSubmit')
+      notify.success(`${pet.value.name}'s information was updated successfully`)
+    }
+    catch (error) {
+      notify.error(`Failed to update ${pet.value.name}'s information`)
+    }
   }
-  catch (err) {
-    submitError.value = true
-    return notificationRef.value = err && error.value
-  }
-  finally {
-    loading.value = false
-    emit('formSubmit')
-    notificationRef.value = `${pet.value.name}'s information was updated successfully`
+
+  if (prop.type === 'create') {
+    try {
+      await createPet()
+      emit('formSubmit')
+      notify.success(`${pet.value.name} was added successfully`)
+
+      setTimeout(() => {
+        router.go(0)
+      }, 2000)
+    }
+    catch (error) {
+      notify.error(`Failed to add ${pet.value.name}`)
+    }
   }
 }
 </script>
