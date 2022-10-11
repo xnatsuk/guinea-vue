@@ -32,6 +32,7 @@ declare module '@vue/runtime-core' {
     NImage: typeof import('naive-ui')['NImage']
     NInput: typeof import('naive-ui')['NInput']
     NLi: typeof import('naive-ui')['NLi']
+    NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
     Notification: typeof import('./src/components/Notification.vue')['default']

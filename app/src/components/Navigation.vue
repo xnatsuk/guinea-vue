@@ -1,27 +1,53 @@
 <script setup lang="ts">
+import type { MenuOption } from 'naive-ui'
+import { NIcon } from 'naive-ui'
+import { RouterLink } from 'vue-router'
+import DarkSwitcherVue from './DarkSwitcher.vue'
+
+const route = useRoute()
+const activeKey = computed(() => route.name)
+
+const menuOptions: MenuOption[] = [
+  {
+    label: () => h(RouterLink, { to: '/' }, { default: () => 'Home' }),
+    key: 'home',
+    icon: () => h(NIcon,
+      {
+        class: 'i-carbon-home',
+        size: 36,
+      }),
+  },
+  {
+    label: () => h(RouterLink, { to: '/edit' }, { default: () => 'Edit' }),
+    key: 'edit',
+    icon: () => h(NIcon,
+      {
+        class: 'i-carbon-edit',
+        size: 36,
+      }),
+  },
+  {
+    label: () => h(RouterLink, { to: '/about' }, { default: () => 'About' }),
+    key: 'about',
+    icon: () => h(NIcon,
+      {
+        class: 'i-carbon-information',
+        size: 36,
+      }),
+  },
+  {
+    label: () => h(DarkSwitcherVue),
+    key: 'dark',
+  },
+]
 </script>
 
 <template>
-  <div class="flex justify-wrap m-x-4">
-    <n-tabs type="line" size="large" class="flex justify-center m-l-12">
-      <n-tab name="Home">
-        <router-link to="/">
-          <n-icon class="i-carbon-home dark:bg-#63e2b7 bg-#18a058" size="36" />
-        </router-link>
-      </n-tab>
-      <n-tab name="EditPets">
-        <router-link to="/edit">
-          <n-icon class="i-carbon-edit dark:bg-#63e2b7 bg-#18a058" size="36" />
-        </router-link>
-      </n-tab>
-      <n-tab name="About">
-        <router-link to="/about">
-          <n-icon class="i-carbon-information dark:bg-#63e2b7 bg-#18a058" size="36" />
-        </router-link>
-      </n-tab>
-    </n-tabs>
-    <div class="m-y-3">
-      <DarkSwitcher />
-    </div>
-  </div>
+  <n-space horizontal justify="center">
+    <n-menu
+      v-model:value="activeKey"
+      :options="menuOptions"
+      mode="horizontal"
+    />
+  </n-space>
 </template>
