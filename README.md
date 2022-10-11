@@ -1,9 +1,25 @@
-# Vue 3 + Vite
+<h1 align="center">
+Guinea Vue
+</h1>
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<p align="center">A personal project to showcase my pets photos and information, made with Vue 💚 </p>
 
-## Recommended IDE Setup
+### Powered By
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [**Naive UI**](https://github.com/tusen-ai/naive-ui) _- a Vue 3 component library_
+- [**UnoCSS**](https://github.com/unocss/unocss) _- The instant on-demand Atomic CSS engine_
+- [**Vite ⚡**](https://github.com/vitejs/vite) _- Next Generation Frontend Tooling_
+- **Apollo-GraphQL**
+- **Express.js**
+- **Mongoose**
+- **Docker**
 
-## Express + GraphQL + Mongoose
+### Todo
+
+- About page
+- Docs
+- Live Preview
+
+### License
+
+MIT - @xnatsuk 2022
