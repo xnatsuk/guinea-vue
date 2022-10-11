@@ -9,37 +9,33 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "lint": "eslint .",
-    "typecheck": "vue-tsc --noEmit"
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@apollo/client": "^3.6.10",
+    "@apollo/client": "^3.7.0",
     "@vue/apollo-composable": "4.0.0-alpha.19",
     "@vue/apollo-util": "4.0.0-alpha.18",
     "@vueuse/components": "^9.3.0",
     "@vueuse/core": "^9.3.0",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
-    "pinia": "^2.0.22",
     "vue": "^3.2.40",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.3",
-    "@iconify/json": "^2.1.115",
-    "@types/node": "^18.7.23",
-    "@vitejs/plugin-vue": "^3.1.0",
+    "@iconify/json": "^2.1.120",
+    "@types/node": "^18.8.4",
+    "@vitejs/plugin-vue": "^3.1.2",
     "@vue/test-utils": "^2.1.0",
-    "eslint": "^8.24.0",
-    "husky": "^8.0.1",
-    "naive-ui": "^2.33.4",
-    "pnpm": "^7.12.2",
+    "eslint": "^8.25.0",
+    "naive-ui": "^2.33.5",
+    "pnpm": "^7.13.4",
     "typescript": "^4.8.4",
-    "unocss": "^0.45.26",
+    "unocss": "^0.45.29",
     "unplugin-auto-import": "^0.11.2",
-    "unplugin-vue-components": "^0.22.7",
-    "vite": "^3.1.4",
-    "vitest": "^0.21.1",
-    "vue-tsc": "^0.40.13"
+    "unplugin-vue-components": "^0.22.8",
+    "vite": "^3.1.7",
+    "vitest": "^0.21.1"
   }
 }
