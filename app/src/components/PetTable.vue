@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NButton, NIcon } from 'naive-ui'
+import { NAvatar, NButton, NIcon, useDialog, useMessage } from 'naive-ui'
 import type { IPet } from '@/types'
 
 type RowData = IPet
@@ -8,6 +8,9 @@ type RowData = IPet
 const { result } = query.get()
 
 const data = computed(() => result.value?.getPets as IPet[] ?? [])
+
+const dialog = useDialog()
+setMessage(useMessage())
 
 const createColumns = ({
   edit, remove,
@@ -117,7 +120,13 @@ const createColumns = ({
       render(row) {
         return h(NButton,
           {
-            onClick: () => remove(row),
+            onClick: () => dialog.warning({
+              title: 'Confirm Delete',
+              content: 'Are you sure you want to delete this pet? This action cannot be undone.',
+              negativeText: 'Cancel',
+              positiveText: 'Confirm',
+              onPositiveClick: () => remove(row),
+            }),
           },
           {
             default: () => {
@@ -133,7 +142,7 @@ const createColumns = ({
   ]
 }
 
-const showModal = ref<Boolean>(false)
+const showModal = ref<boolean>(false)
 const editRow = ref<RowData>()
 
 const columns = createColumns({
@@ -143,7 +152,18 @@ const columns = createColumns({
   },
 
   remove: (rowData: RowData) => {
-    console.log('remove', rowData)
+    try {
+      const { deletePet } = mutation.delete(rowData.name)
+      deletePet()
+      notify.success('Pet deleted successfully')
+
+      setTimeout(() => {
+        router.go(0)
+      }, 2000)
+    }
+    catch (error) {
+      notify.error(`Error deleting pet: ${rowData.name}`)
+    }
   },
 })
 </script>
@@ -153,7 +173,7 @@ const columns = createColumns({
     <n-data-table
       :columns="columns"
       :data="data"
-      :max-height="500"
+      :max-height="800"
       :scroll-x="1000"
     />
   </n-space>
@@ -169,6 +189,7 @@ const columns = createColumns({
     <n-space justify="center">
       <PetForm
         v-bind="editRow"
+        type="update"
         @form-submit="showModal = false"
       />
     </n-space>
