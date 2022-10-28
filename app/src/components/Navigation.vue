@@ -2,7 +2,6 @@
 import type { MenuOption } from 'naive-ui'
 import { NIcon } from 'naive-ui'
 import { RouterLink } from 'vue-router'
-import DarkSwitcherVue from './DarkSwitcher.vue'
 
 const route = useRoute()
 const activeKey = computed(() => route.name)
@@ -35,19 +34,17 @@ const menuOptions: MenuOption[] = [
         size: 36,
       }),
   },
-  {
-    label: () => h(DarkSwitcherVue),
-    key: 'dark',
-  },
 ]
 </script>
 
 <template>
-  <n-space horizontal justify="center">
+  <n-space horizontal justify="space-between">
+    <div class="w-56px" />
     <n-menu
       v-model:value="activeKey"
       :options="menuOptions"
       mode="horizontal"
     />
+    <dark-switcher />
   </n-space>
 </template>
