@@ -1,11 +1,11 @@
 <script setup lang="ts">
 const prop = defineProps<{
   name?: string
-  birthday?: string | Date
+  birthday?: string
   gender?: string
   species?: string
   nickname?: string
-  deathDate?: string | Date
+  deathDate?: string
   favoriteFood?: string
   favoriteActivity?: string
   description?: string

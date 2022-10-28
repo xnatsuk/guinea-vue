@@ -8,8 +8,8 @@ const prop = defineProps<{
   gender?: string
   species?: string
   nickname?: string
-  birthday?: string | Date
-  deathDate?: string | Date
+  birthday?: string
+  deathDate?: string
   favoriteFood?: string
   favoriteActivity?: string
   description?: string
