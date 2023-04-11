@@ -1,11 +1,11 @@
 <script setup lang="ts">
 const prop = defineProps<{
-  name?: string
-  birthday?: string | Date
+  name: string
+  birthday?: string
   gender?: string
   species?: string
   nickname?: string
-  deathDate?: string | Date
+  deathDate?: string
   favoriteFood?: string
   favoriteActivity?: string
   description?: string
@@ -15,13 +15,12 @@ const prop = defineProps<{
 
 <template>
   <div class="flex justify-center">
-    <n-card size="medium" bordered>
+    <n-card size="medium" embedded bordered hoverable>
       <template #cover>
-        <n-image
-          :src="prop.photo"
+        <img
+          :src="prop.photo || 'https://via.placeholder.com/800x620'"
           :alt="prop.name"
-          fallback-src="https://via.placeholder.com/800x620"
-        />
+        >
       </template>
 
       <template #header>
@@ -42,8 +41,9 @@ const prop = defineProps<{
 
       <template #header-extra>
         <n-h4>
-          <n-text depth="3" class="text-zinc-400">
-            {{ prop.birthday }} - {{ prop.deathDate }}
+          <n-text depth="3" class="text-zinc-600 dark:text-zinc-400">
+            <n-p>{{ prop.birthday }}</n-p>
+            <n-p>{{ prop.deathDate }}</n-p>
           </n-text>
         </n-h4>
       </template>
@@ -54,13 +54,13 @@ const prop = defineProps<{
 
       <div class="mx-4 my-4">
         <n-li>
-          <n-text strong class="text-lg text-purple-700 dark:text-purple">
+          <n-text strong type="info" class="text-lg">
             Favorite food:
           </n-text>
           <span>{{ prop.favoriteFood }}</span>
         </n-li>
         <n-li>
-          <n-text strong class="text-lg text-purple-700 dark:text-purple">
+          <n-text strong type="info" class="text-lg">
             Favorite activity:
           </n-text>
           <span>{{ prop.favoriteActivity }}</span>
@@ -68,7 +68,7 @@ const prop = defineProps<{
       </div>
 
       <span>
-        <n-tag round :bordered="false" type="error" class="mx-2">
+        <n-tag round :bordered="false" type="success" class="mx-2">
           {{ prop.gender }}
           <template #icon>
             <n-icon class="i-icons8-gender" />
@@ -86,8 +86,15 @@ const prop = defineProps<{
 </template>
 
 <style scoped>
+img {
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+}
 .n-card, .n-card--bordered {
-  max-width: 800px;
-  max-height: 870px;
+  width: 100vw;
+  height: 100vh;
+  max-width: 50em;
+  max-height: 55em;
 }
 </style>
