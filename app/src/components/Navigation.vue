@@ -12,8 +12,9 @@ const menuOptions: MenuOption[] = [
     key: 'home',
     icon: () => h(NIcon,
       {
-        class: 'i-carbon-home',
-        size: 36,
+        'class': 'i-carbon-home',
+        'size': 36,
+        'aria-hidden': true,
       }),
   },
   {
@@ -21,8 +22,9 @@ const menuOptions: MenuOption[] = [
     key: 'edit',
     icon: () => h(NIcon,
       {
-        class: 'i-carbon-edit',
-        size: 36,
+        'class': 'i-carbon-edit',
+        'size': 36,
+        'aria-hidden': true,
       }),
   },
   {
@@ -30,15 +32,20 @@ const menuOptions: MenuOption[] = [
     key: 'about',
     icon: () => h(NIcon,
       {
-        class: 'i-carbon-information',
-        size: 36,
+        'class': 'i-carbon-information',
+        'size': 36,
+        'aria-hidden': true,
       }),
   },
 ]
 </script>
 
 <template>
-  <n-space horizontal justify="space-between">
+  <n-space
+    horizontal
+    justify="space-between"
+    :wrap="false"
+  >
     <div class="w-56px" />
     <n-menu
       v-model:value="activeKey"

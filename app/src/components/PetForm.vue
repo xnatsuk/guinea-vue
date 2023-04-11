@@ -22,7 +22,7 @@ const emit = defineEmits<{
 }>()
 
 setMessage(useMessage())
-
+// TODO: clear this mess
 const pet = ref({
   name: prop.name,
   gender: prop.gender,
@@ -62,7 +62,7 @@ const rules: FormRules = {
   ],
 }
 
-const onSubmit = async () => {
+async function onSubmit() {
   if (prop.type === 'update') {
     try {
       await editPet()
@@ -74,7 +74,7 @@ const onSubmit = async () => {
     }
   }
 
-  if (prop.type === 'create') {
+  else if (prop.type === 'create') {
     try {
       await createPet()
       emit('formSubmit')
@@ -98,11 +98,9 @@ const onSubmit = async () => {
     :rules="rules"
     :model="pet"
   >
-    <n-image
+    <img
       :src="pet.photo"
-      :height="300"
-      :width="500"
-    />
+    >
 
     <n-form-item label="Photo">
       <n-input
@@ -242,3 +240,10 @@ const onSubmit = async () => {
     </n-button>
   </n-form>
 </template>
+
+<style scoped>
+img{
+  width:100%;
+  height: 100%;
+}
+</style>
