@@ -11,13 +11,13 @@ const data = computed(() => result.value?.getPets as IPet[] ?? [])
 
 const dialog = useDialog()
 setMessage(useMessage())
-
-const createColumns = ({
+// TODO: improve accessiblity
+function createColumns({
   edit, remove,
 }: {
   edit: (rowData: RowData) => void
   remove: (rowData: RowData) => void
-}): DataTableColumns<RowData> => {
+}): DataTableColumns<RowData> {
   return [
     {
       title: 'Photo',
@@ -86,7 +86,7 @@ const createColumns = ({
         },
       ],
       filter(value, row) {
-        return row.gender.indexOf(value.toString())
+        return row.gender!.indexOf(value.toString())
       },
     },
     {
@@ -131,9 +131,10 @@ const createColumns = ({
           {
             default: () => {
               return h(NIcon, {
-                class: 'i-carbon-trash-can',
-                size: 18,
-                color: '#e88080',
+                'class': 'i-carbon-trash-can',
+                'size': 18,
+                'color': '#e88080',
+                'aria-label': 'delete',
               })
             },
           })

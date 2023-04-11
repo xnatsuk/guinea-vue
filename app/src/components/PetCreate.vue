@@ -3,7 +3,7 @@ const containerRef = ref<HTMLElement | undefined>(undefined)
 const showModal = ref<boolean>(false)
 const newName = ref<string>('')
 
-const onClick = () => {
+function onClick() {
   showModal.value = true
 }
 </script>
@@ -25,7 +25,7 @@ const onClick = () => {
             style="font-size: 60px"
             @click="onClick"
           >
-            <n-icon class="i-carbon-add-filled" />
+            <n-icon class="i-carbon-add-filled" aria-hidden="true" />
           </n-button>
         </template>
         <span>Click here to add a new pet!</span>
