@@ -1955,6 +1955,11 @@ packages:
       - supports-color
     dev: true
 
+  /@fastify/busboy/2.0.0:
+    resolution: {integrity: sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==}
+    engines: {node: '>=14'}
+    dev: true
+
   /@graphql-codegen/cli/2.13.10_g4solhahxlsjepqhgmq6iuh4zm:
     resolution: {integrity: sha512-h0b/dr1yY0P3BzHXES9b40ADqCwzb5G8mPGGmYJyrJUrWbVBDHd7oLsYNZyUXrdNH2+OXSvRla0P+rE7Xtql5Q==}
     hasBin: true
@@ -3297,7 +3302,7 @@ packages:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.6.7
-      undici: 5.22.1
+      undici: 5.27.0
       web-streams-polyfill: 3.2.1
     transitivePeerDependencies:
       - encoding
@@ -3312,7 +3317,7 @@ packages:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.6.7
-      undici: 5.22.1
+      undici: 5.27.0
       web-streams-polyfill: 3.2.1
     transitivePeerDependencies:
       - encoding
@@ -8397,11 +8402,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /undici/5.22.1:
-    resolution: {integrity: sha512-Ji2IJhFXZY0x/0tVBXeQwgPlLWw13GVzpsWPQ3rV50IFMMof2I55PZZxtm4P6iNq+L5znYN9nSTAq0ZyE6lSJw==}
+  /undici/5.27.0:
+    resolution: {integrity: sha512-l3ydWhlhOJzMVOYkymLykcRRXqbUaQriERtR70B9LzNkZ4bX52Fc8wbTDneMiwo8T+AemZXvXaTx+9o5ROxrXg==}
     engines: {node: '>=14.0'}
     dependencies:
-      busboy: 1.6.0
+      '@fastify/busboy': 2.0.0
     dev: true
 
   /unist-util-stringify-position/2.0.3:
